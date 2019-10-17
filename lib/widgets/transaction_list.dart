@@ -3,7 +3,7 @@ import '../models/transaction.dart';
 import '../widgets/transaction_item.dart';
 
 class TransactionList extends StatelessWidget {
-  const TransactionList({@required this.transactions, @required this.deleteTx});
+  const TransactionList(this.transactions, this.deleteTx);
   final Function deleteTx;
 
   final List<Transaction> transactions;
@@ -26,7 +26,7 @@ class TransactionList extends StatelessWidget {
                 ),
                 Container(
                   height: constraints.maxHeight * 0.6,
-                  child:  Image.asset(
+                  child: Image.asset(
                     'assets/images/waiting.png',
                     fit: BoxFit.cover,
                   ),
@@ -35,12 +35,14 @@ class TransactionList extends StatelessWidget {
             );
           })
         : ListView.builder(
+          itemCount: transactions.length,
             itemBuilder: (context, index) {
-              return TransactionItem(transaction: transactions[index], deleteTx: deleteTx);
-            },
-            itemCount: transactions.length,
+              return TransactionItem(
+                key: ValueKey(transactions[index].id),
+                transaction: transactions[index],
+                deleteTx: deleteTx,
+              );
+            },     
           );
   }
 }
-
-
